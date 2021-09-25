@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:toximeter_shellhacks/today_chart.dart';
+import 'tip_card.dart';
 
 import 'summary_bar_chart.dart';
 
-var answerList = List<int>.filled(4,0);
+var answerList = List<int>.filled(14,0);
 
 void main() {
   runApp(const MyApp());
@@ -101,15 +103,16 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 120.0, left: 10.0, right: 10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: EdgeInsets.all(8.0),
+        child: ListView(
           children: [
             Text('Today'),
             Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: (saved == true) ? SummaryBarChart() : CupertinoButton(
+                  child: (saved == true) ?
+                  TodayChart() :
+                  CupertinoButton(
                       color: Colors.blueAccent,
                       child: Row(
                         children: [
@@ -147,9 +150,10 @@ class TipsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Settings'),
-    );
+    return ListView(
+      children: [
+        TipCard(),
+    ]);
   }
 }
 
@@ -158,10 +162,20 @@ class QuestionsWidget extends StatefulWidget {
   var toggle;
 
   final questionList = <Question>[
-    Question("Sample Question 1", ["0","1","2","3"]),
-    Question("Sample Question 2", ["0","1","2","3"]),
-    Question("Sample Question 3", ["0","1","2","3"]),
-    Question("Sample Question 4", ["0","1","2","3"]),
+    Question("How many hours have you spent outside?", ["0","1-4","4-7","7-10"]),
+    Question("How many hours have you spent in traffic?", ["0","1-4","4-7", "7-10"]),
+    Question("How many cigarettes have you smoked", ["0","1-3","3-5", "5+"]),
+    Question("How much alcohol have you consumed?", ["0","100-200", "200-500","500+"]),
+    Question("How much time you spent talking on the phone?", ["0","1-3","3-5", "5+"]),
+    Question("Did you unplug your home electronics before going to bed?", ["Yes", "No"]),
+    Question("Is there overhead power line near you location?", ["Yes", "No"]),
+    Question("Have you had any CT scan?", ["Yes", "No"]),
+    Question("How many personal care products you use?", ["0", "1-3", "3-5", "5+"]),
+    Question("Have you recently ?", ["0", "1-3", "3-5", "5+"]),
+    Question("How many fruits/vegetables you consumed today?", ["0", "1-3", "3-5", "5+"]),
+    Question("Have you done mild training today? How many hours?", ["0", "1-3", "3-5", "5+"]),
+    Question("Have you done moderate training today? How many hours?", ["0", "1-3", "3-5", "5+"]),
+    Question("How you consumed at least 2lt of water today?", ["Yes", "No"])
   ];
 
   @override
@@ -201,8 +215,15 @@ class _QuestionsWidgetState extends State<QuestionsWidget> {
                 itemExtent: 64,
                 children: widget.questionList[questionIndex].items.map((item) => Center(child: Text(item))).toList(),
                 onSelectedItemChanged: (index) {
-                  setState(() => answer = int.parse(widget.questionList[questionIndex].items[index]));
-                },
+                  if (widget.questionList[questionIndex].items[index] == "Yes") {
+                    setState(() => answer = -1);
+                  } else if (widget.questionList[questionIndex].items[index] == "No") {
+                    setState(() => answer = 1);
+                  } else {
+                    setState(() =>
+                    answer = index);
+                  }
+                  },
               ),
             ),
           ],
@@ -262,5 +283,26 @@ class _QuestionState extends State<Question> {
         ),
       ],
     );
+  }
+}
+
+class TodayFocused extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text("Today"),
+          backgroundColor: Colors.white,
+        ),
+        child: ListView(
+          children: [
+            TodayChart(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("Highlights"),
+            ),
+            HighlightCard("Sample Title", "Sample Subtitle", Icon(Icons.home)),
+          ],
+        ));
   }
 }
