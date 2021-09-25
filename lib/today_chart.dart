@@ -37,6 +37,7 @@ class TodayChartState extends State<TodayChart> {
     super.initState();
     pollutionData = fetchPollution();
   }
+
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
@@ -136,9 +137,15 @@ class TodayChartState extends State<TodayChart> {
   }
 
   List<BarChartGroupData> showingGroups() => List.generate(1, (i) {
+    double extraHarmful = 0;
+    pollutionData.then((value) {
+      if (value.aqi > 50 || value.uvi > 5) { // If the air quality is worse than usual, add upp to the total value
+        extraHarmful = 2.0;
+      }
+    });
     switch (i) {
       case 0:
-        return makeGroupData(0, total.toDouble(), isTouched: i == touchedIndex);
+        return makeGroupData(0, total.toDouble() + extraHarmful, isTouched: i == touchedIndex);
       default:
         return throw Error();
     }

@@ -19,7 +19,7 @@ Widget TipCard() => GestureDetector(
                 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1327&q=80',
               ),
               height: 240,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
             SizedBox(height: 40),
           ],
@@ -96,3 +96,58 @@ class HighlightCard extends StatelessWidget {
         ));
   }
 }
+
+class TipCardNew extends StatelessWidget {
+  TipCardNew(this.title, this.subtitle, this.image);
+
+  final String title;
+  final String subtitle;
+  final String image;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: null,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+          child: Card(
+              clipBehavior: Clip.antiAlias,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  side: BorderSide(color: Colors.grey, width: 0.5)
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Stack(
+                    children: [
+                      Image.asset(
+                        image,
+                        height: 300,
+                        fit: BoxFit.fill,
+                      ),
+                    ],
+                  ),
+                  Divider(),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4.0, left: 10.0),
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      subtitle,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ],
+              )),
+        ));
+  }
+}
+
+

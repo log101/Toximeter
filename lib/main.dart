@@ -74,6 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       child: CupertinoTabScaffold(
           tabBar: CupertinoTabBar(
+            activeColor: Colors.indigoAccent,
             items: [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
               BottomNavigationBarItem(icon: Icon(Icons.health_and_safety), label: 'Tips'),
@@ -109,15 +110,16 @@ class _HomeTabState extends State<HomeTab> {
         padding: EdgeInsets.all(8.0),
         child: ListView(
           children: [
-            Text('Today'),
+            Text('Today', style: TextStyle(fontSize: 24.0, letterSpacing: 0.15,color:Colors.black,fontWeight: FontWeight.bold)),
             Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 20.0),
                   child: (saved == true) ?
                   TodayChart(total) :
                   CupertinoButton(
-                      color: Colors.blueAccent,
+                      color: Colors.indigoAccent,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center ,
                         children: [
                           Icon(Icons.add),
                           Text("Add today's toximeter data!"),
@@ -129,7 +131,10 @@ class _HomeTabState extends State<HomeTab> {
                       )),
                 )
             ),
-            Text('Summary'),
+            Padding(
+              padding: const EdgeInsets.only(left: 4.0, bottom: 10.0),
+              child: Text('Summary', style: TextStyle(fontSize: 24.0, letterSpacing: 0.15,color:Colors.black,fontWeight: FontWeight.bold)),
+            ),
             SummaryBarChart(),
         ]),
     );
@@ -145,7 +150,9 @@ class TipsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        TipCard(),
+        TipCardNew("Better Food, Better Mood", "Learn how to switch to a healthy diet", "images/elma.jpeg"),
+        TipCardNew("Sun Exposure and our Health", "Here are the some potential risks of excessive sunlight", "images/sun.jpeg"),
+        TipCardNew("Diesel Emissions", "Have you ever wondered how the exhaust gases effect our health? Let's take a look!", "images/arabalar1.jpeg"),
     ]);
   }
 }
@@ -184,7 +191,10 @@ class _QuestionsWidgetState extends State<QuestionsWidget> {
       navigationBar: CupertinoNavigationBar(
         leading: Row(
           children: [
-            CupertinoNavigationBarBackButton(),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: CupertinoNavigationBarBackButton(color: Colors.deepPurpleAccent),
+            ),
           ],
         ),
         border: null,
@@ -198,8 +208,13 @@ class _QuestionsWidgetState extends State<QuestionsWidget> {
           Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(child: Text(answerList.toString())),
-            Center(child: Text(widget.questionList[questionIndex].question)),
+            Center(child:
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Text(widget.questionList[questionIndex].question,
+                style: TextStyle(fontSize: 22.0, letterSpacing: 0.15,color:Colors.black),
+                textAlign: TextAlign.center),
+              )),
             SizedBox(
               height: 200,
               child: CupertinoPicker(
@@ -230,7 +245,9 @@ class _QuestionsWidgetState extends State<QuestionsWidget> {
             ),
           ],
         ),
-            CupertinoButton(child: Text("Next"), onPressed: () => setState(() {
+            SizedBox(height: 20),
+            CupertinoButton(
+                child: Text("Next"), color: Colors.indigoAccent, onPressed: () => setState(() {
               answerList[questionIndex] = answer;
               if (questionIndex == widget.questionList.length - 1) {
                 widget.toggle();
@@ -241,7 +258,8 @@ class _QuestionsWidgetState extends State<QuestionsWidget> {
                 question = widget.questionList[questionIndex];
               }
             })),
-          CupertinoButton(child: Text("Skip"), onPressed: () => setState(() {
+          SizedBox(height: 10),
+          CupertinoButton(child: Text("Skip"), color: Colors.grey, onPressed: () => setState(() {
             questionIndex++;
             if (questionIndex >= widget.questionList.length) {
               Navigator.of(context).pop();
