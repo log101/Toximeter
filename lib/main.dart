@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:toximeter_shellhacks/settings_tab.dart';
 import 'package:toximeter_shellhacks/today_chart.dart';
 import 'tip_card.dart';
 import 'package:http/http.dart' as http;
 import 'summary_bar_chart.dart';
 
-var answerList = List<int>.filled(14,0);
+var answerList = List<int>.filled(12,0);
+int total = 0;
 
 void main() {
   runApp(const MyApp());
@@ -97,12 +97,12 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   var saved = false;
-
   void _toggleSaved() {
     setState(() {
       saved = true;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -114,7 +114,7 @@ class _HomeTabState extends State<HomeTab> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: (saved == true) ?
-                  TodayChart() :
+                  TodayChart(total) :
                   CupertinoButton(
                       color: Colors.blueAccent,
                       child: Row(
@@ -155,20 +155,18 @@ class QuestionsWidget extends StatefulWidget {
   var toggle;
 
   final questionList = <Question>[
-    Question("How many hours have you spent outside?", ["0","1-4","4-7","7-10"]),
-    Question("How many hours have you spent in traffic?", ["0","1-4","4-7", "7-10"]),
-    Question("How many cigarettes have you smoked", ["0","1-3","3-5", "5+"]),
-    Question("How much alcohol have you consumed?", ["0","100-200", "200-500","500+"]),
-    Question("How much time you spent talking on the phone?", ["0","1-3","3-5", "5+"]),
-    Question("Did you unplug your home electronics before going to bed?", ["Yes", "No"]),
-    Question("Is there overhead power line near you location?", ["Yes", "No"]),
-    Question("Have you had any CT scan?", ["Yes", "No"]),
-    Question("How many personal care products you use?", ["0", "1-3", "3-5", "5+"]),
-    Question("Have you recently ?", ["0", "1-3", "3-5", "5+"]),
-    Question("How many fruits/vegetables you consumed today?", ["0", "1-3", "3-5", "5+"]),
-    Question("Have you done mild training today? How many hours?", ["0", "1-3", "3-5", "5+"]),
-    Question("Have you done moderate training today? How many hours?", ["0", "1-3", "3-5", "5+"]),
-    Question("How you consumed at least 2lt of water today?", ["Yes", "No"])
+    Question("How many hours have you spent outside?", ["0","1-4","4-7","7-10"], "negative"),
+    Question("Did you cover or skin or used sunscreen?", ["Yes", "No"], "positive"),
+    Question("How many hours have you spent in traffic?", ["0","1-4","4-7", "7-10"], "negative"),
+    Question("How many standard alcoholic drinks did you have today?", ["0","1-3","3-5", "5+"], "negative"),
+    Question("How much time you spent talking on the phone?", ["0","1-3","3-5", "5+"], "negative"),
+    Question("Did you unplug your home electronics before going to bed?", ["Yes", "No"], "positive"),
+    Question("Is there overhead power line near you location?", ["Yes", "No"], "negative"),
+    Question("Have you had any CT scan today?", ["Yes", "No"], "negative"),
+    Question("How many personal care products you use?", ["0", "1-3", "3-5", "5+"], "negative"),
+    Question("How many serves of fruit did you eat today?", ["0", "1-3", "3-5", "5+"], "positive"),
+    Question("Have you minutes did you spent training today?", ["0", "0-30", "30-60", "60-90", "90+"], "positive"),
+    Question("Did you drink at least 2lt of water today?", ["Yes", "No"], "positive")
   ];
 
   @override
@@ -209,12 +207,23 @@ class _QuestionsWidgetState extends State<QuestionsWidget> {
                 children: widget.questionList[questionIndex].items.map((item) => Center(child: Text(item))).toList(),
                 onSelectedItemChanged: (index) {
                   if (widget.questionList[questionIndex].items[index] == "Yes") {
-                    setState(() => answer = -1);
+                    if (widget.questionList[questionIndex].side == "positive") {
+                      setState(() => answer = -1);
+                    } else {
+                      setState(() => answer = 1);
+                    }
                   } else if (widget.questionList[questionIndex].items[index] == "No") {
-                    setState(() => answer = 1);
+                    if (widget.questionList[questionIndex].side == "positive") {
+                      setState(() => answer = 1);
+                    } else {
+                      setState(() => answer = -1);
+                    }
                   } else {
-                    setState(() =>
-                    answer = index);
+                    if (widget.questionList[questionIndex].side == "positive") {
+                      setState(() => answer = -index);
+                    } else {
+                      setState(() => answer = index);
+                    }
                   }
                   },
               ),
@@ -223,19 +232,22 @@ class _QuestionsWidgetState extends State<QuestionsWidget> {
         ),
             CupertinoButton(child: Text("Next"), onPressed: () => setState(() {
               answerList[questionIndex] = answer;
-              questionIndex++;
-              if (questionIndex >= widget.questionList.length) {
+              if (questionIndex == widget.questionList.length - 1) {
                 widget.toggle();
+                total = answerList.reduce((value, element) => value + element);
                 Navigator.of(context).pop();
+              } else {
+                questionIndex++;
+                question = widget.questionList[questionIndex];
               }
-              question = widget.questionList[questionIndex];
             })),
           CupertinoButton(child: Text("Skip"), onPressed: () => setState(() {
             questionIndex++;
             if (questionIndex >= widget.questionList.length) {
               Navigator.of(context).pop();
+            } else {
+              question = widget.questionList[questionIndex];
             }
-            question = widget.questionList[questionIndex];
           })),
           ],
         ),
@@ -246,10 +258,11 @@ class _QuestionsWidgetState extends State<QuestionsWidget> {
 
 
 class Question extends StatefulWidget {
-  Question(this.question, this.items);
+  Question(this.question, this.items, this.side);
 
   final String question;
   final List<String> items;
+  final String side;
 
   @override
   State<Question> createState() => _QuestionState();
@@ -289,7 +302,7 @@ class TodayFocused extends StatelessWidget {
         ),
         child: ListView(
           children: [
-            TodayChart(),
+            TodayChart(total),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text("Highlights"),
@@ -302,11 +315,12 @@ class TodayFocused extends StatelessWidget {
 
 Future<Pollution> fetchPollution() async {
   final response = await http
-      .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+      .get(Uri.parse('https://api.waqi.info/feed/here/?token=cdf534b0637649d86ae27a4c568cb7bdbff22af7'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
+    print("200");
     return Pollution.fromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 200 OK response,
@@ -326,8 +340,8 @@ class Pollution {
 
   factory Pollution.fromJson(Map<String, dynamic> json) {
     return Pollution(
-      uvi: json['uvi'],
-      aqi: json['forecast']['aqi'],
+      aqi: json['data']['aqi'],
+      uvi: json['data']['forecast']['daily']['uvi'][0]['avg'],
     );
   }
 }

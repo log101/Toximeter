@@ -7,7 +7,11 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:toximeter_shellhacks/main.dart';
 import 'color_extensions.dart';
 
+
 class TodayChart extends StatefulWidget {
+  TodayChart(this.total);
+
+  var total;
   final List<Color> availableColors = [
     Colors.purpleAccent,
     Colors.yellow,
@@ -24,11 +28,15 @@ class TodayChart extends StatefulWidget {
 class TodayChartState extends State<TodayChart> {
   final Color barBackgroundColor = const Color(0xff72d8bf);
   final Duration animDuration = const Duration(milliseconds: 250);
-
+  late Future<Pollution> pollutionData;
   int touchedIndex = -1;
 
   bool isPlaying = false;
-
+  @override
+  void initState() {
+    super.initState();
+    pollutionData = fetchPollution();
+  }
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
@@ -130,7 +138,7 @@ class TodayChartState extends State<TodayChart> {
   List<BarChartGroupData> showingGroups() => List.generate(1, (i) {
     switch (i) {
       case 0:
-        return makeGroupData(0, 15, isTouched: i == touchedIndex);
+        return makeGroupData(0, total.toDouble(), isTouched: i == touchedIndex);
       default:
         return throw Error();
     }
