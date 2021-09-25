@@ -37,7 +37,7 @@ class _SettingsTabState extends State<SettingsTab> {
                               "Talha Asan",
                               style: Theme.of(context).textTheme.subtitle1,
                             ),
-                            Text("kullanıcı1")
+                            Text("talha.asan@outlook.com")
                           ],
                         ),
                       )),
@@ -52,8 +52,9 @@ class _SettingsTabState extends State<SettingsTab> {
                   right: 275,
                   child: Center(
                     child: CircleAvatar(
+                      backgroundColor: Colors.indigoAccent,
                       radius: 30.0,
-                      child: Text("D"),
+                      child: Text("T",style: TextStyle(color: Colors.white),),
                     ),
                   ),
                 )

@@ -54,11 +54,6 @@ class TodayChartState extends State<TodayChart> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  Text(
-                    '25/09/2021',
-                    style: TextStyle(
-                        color: const Color(0xff0f4a3c), fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
                   const SizedBox(
                     height: 4,
                   ),

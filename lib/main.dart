@@ -64,11 +64,13 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
+        backgroundColor: Colors.deepPurple,
         middle: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.grain),
-            Text("ToxiMeter"),
+            Image.asset("images/beher.png"),
+            SizedBox(width: 5),
+            Text("ToxiMeter", style: TextStyle(fontSize: 24.0, color: Colors.white)),
           ],
         ),
       ),
@@ -320,12 +322,15 @@ class TodayFocused extends StatelessWidget {
         ),
         child: ListView(
           children: [
-            TodayChart(total),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text("Highlights"),
+              padding: const EdgeInsets.all(10.0),
+              child: TodayChart(total),
             ),
-            HighlightCard("Sample Title", "Sample Subtitle", Icon(Icons.home)),
+            Padding(
+              padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 22.0, bottom: 2.0),
+              child: Text("Highlights", style: TextStyle(fontSize: 24.0, letterSpacing: 0.15,color:Colors.black,fontWeight: FontWeight.bold)),
+            ),
+            HighlightCard("Sample Title", Icon(Icons.home)),
           ],
         ));
   }
