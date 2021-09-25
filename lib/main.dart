@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 
 void main() {
@@ -100,7 +101,10 @@ class HomeTab extends StatelessWidget {
                           Text("Add today's toximeter data!"),
                         ],
                       ),
-                      onPressed: () => null),
+                      onPressed: () => showCupertinoModalBottomSheet(
+                        context: context,
+                        builder: (context) => QuestionsWidget(),
+                      )),
                 )
             ),
             Text('Summary'),
@@ -128,6 +132,63 @@ class TipsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text('Settings'),
+    );
+  }
+}
+
+class QuestionsWidget extends StatefulWidget {
+
+  @override
+  State<QuestionsWidget> createState() => _QuestionsWidgetState();
+}
+
+class _QuestionsWidgetState extends State<QuestionsWidget> {
+  final items = [
+    '0',
+    '1',
+    '2',
+  ];
+
+  int index = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        leading: Row(
+          children: [
+            CupertinoNavigationBarBackButton(),
+          ],
+        ),
+        border: null,
+        backgroundColor: Colors.white,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Sample Question?'),
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 200,
+                    child: CupertinoPicker(
+                      itemExtent: 64,
+                      children: items.map((item) => Center(child: Text(item))).toList(),
+                      onSelectedItemChanged: (index) {
+                        setState(() => this.index = index);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
