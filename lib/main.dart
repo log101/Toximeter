@@ -5,6 +5,8 @@ import 'package:fl_chart/fl_chart.dart';
 
 import 'summary_bar_chart.dart';
 
+var answerList = List<int>.filled(4,0);
+
 void main() {
   runApp(const MyApp());
 }
@@ -81,9 +83,21 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   const HomeTab({Key? key}) : super(key: key);
 
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+  var saved = false;
+
+  void _toggleSaved() {
+    setState(() {
+      saved = true;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -95,7 +109,7 @@ class HomeTab extends StatelessWidget {
             Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: CupertinoButton(
+                  child: (saved == true) ? SummaryBarChart() : CupertinoButton(
                       color: Colors.blueAccent,
                       child: Row(
                         children: [
@@ -105,7 +119,7 @@ class HomeTab extends StatelessWidget {
                       ),
                       onPressed: () => showCupertinoModalBottomSheet(
                         context: context,
-                        builder: (context) => QuestionsWidget(Question("Sample Question?", ["1","2","3"])),
+                        builder: (context) => QuestionsWidget(_toggleSaved),
                       )),
                 )
             ),
@@ -140,24 +154,25 @@ class TipsTab extends StatelessWidget {
 }
 
 class QuestionsWidget extends StatefulWidget {
-  QuestionsWidget(this.question);
-
-  final Question question;
+  QuestionsWidget(this.toggle);
+  var toggle;
 
   final questionList = <Question>[
-    Question("Sample Question 1", ["1","2","3","4"]),
-    Question("Sample Question 2", ["1","2","3","4"]),
-    Question("Sample Question 3", ["1","2","3","4"]),
-    Question("Sample Question 4", ["1","2","3","4"]),
+    Question("Sample Question 1", ["0","1","2","3"]),
+    Question("Sample Question 2", ["0","1","2","3"]),
+    Question("Sample Question 3", ["0","1","2","3"]),
+    Question("Sample Question 4", ["0","1","2","3"]),
   ];
+
   @override
   State<QuestionsWidget> createState() => _QuestionsWidgetState();
 }
 
 class _QuestionsWidgetState extends State<QuestionsWidget> {
   Question? question;
-
   int questionIndex = 0;
+  int answer = 0;
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -175,15 +190,39 @@ class _QuestionsWidgetState extends State<QuestionsWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            widget.questionList[questionIndex],
+          Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(child: Text(answerList.toString())),
+            Center(child: Text(widget.questionList[questionIndex].question)),
+            SizedBox(
+              height: 200,
+              child: CupertinoPicker(
+                itemExtent: 64,
+                children: widget.questionList[questionIndex].items.map((item) => Center(child: Text(item))).toList(),
+                onSelectedItemChanged: (index) {
+                  setState(() => answer = int.parse(widget.questionList[questionIndex].items[index]));
+                },
+              ),
+            ),
+          ],
+        ),
             CupertinoButton(child: Text("Next"), onPressed: () => setState(() {
+              answerList[questionIndex] = answer;
               questionIndex++;
               if (questionIndex >= widget.questionList.length) {
+                widget.toggle();
                 Navigator.of(context).pop();
               }
               question = widget.questionList[questionIndex];
             })),
-            SkipButton(),
+          CupertinoButton(child: Text("Skip"), onPressed: () => setState(() {
+            questionIndex++;
+            if (questionIndex >= widget.questionList.length) {
+              Navigator.of(context).pop();
+            }
+            question = widget.questionList[questionIndex];
+          })),
           ],
         ),
       ),
@@ -191,11 +230,13 @@ class _QuestionsWidgetState extends State<QuestionsWidget> {
   }
 }
 
+
 class Question extends StatefulWidget {
-  const Question(this.question, this.items);
+  Question(this.question, this.items);
 
   final String question;
   final List<String> items;
+
   @override
   State<Question> createState() => _QuestionState();
 }
@@ -215,28 +256,11 @@ class _QuestionState extends State<Question> {
             itemExtent: 64,
             children: widget.items.map((item) => Center(child: Text(item))).toList(),
             onSelectedItemChanged: (index) {
-              setState(() => this.index = index);
+              setState(() => null);
             },
           ),
         ),
       ],
     );
-  }
-}
-
-class NextButton extends StatelessWidget {
-  NextButton(this.onPressed);
-  final Function onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoButton(child: Text("Next"), onPressed: onPressed());
-  }
-}
-
-class SkipButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoButton(child: Text("Skip"), onPressed: () => null);
   }
 }
