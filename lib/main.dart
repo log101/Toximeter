@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:fl_chart/fl_chart.dart';
 
+import 'summary_bar_chart.dart';
 
 void main() {
   runApp(const MyApp());
@@ -103,11 +105,12 @@ class HomeTab extends StatelessWidget {
                       ),
                       onPressed: () => showCupertinoModalBottomSheet(
                         context: context,
-                        builder: (context) => QuestionsWidget(),
+                        builder: (context) => QuestionsWidget(Question("Sample Question?", ["1","2","3"])),
                       )),
                 )
             ),
             Text('Summary'),
+            SummaryBarChart(),
         ]),
     );
   }
@@ -137,20 +140,24 @@ class TipsTab extends StatelessWidget {
 }
 
 class QuestionsWidget extends StatefulWidget {
+  QuestionsWidget(this.question);
 
+  final Question question;
+
+  final questionList = <Question>[
+    Question("Sample Question 1", ["1","2","3","4"]),
+    Question("Sample Question 2", ["1","2","3","4"]),
+    Question("Sample Question 3", ["1","2","3","4"]),
+    Question("Sample Question 4", ["1","2","3","4"]),
+  ];
   @override
   State<QuestionsWidget> createState() => _QuestionsWidgetState();
 }
 
 class _QuestionsWidgetState extends State<QuestionsWidget> {
-  final items = [
-    '0',
-    '1',
-    '2',
-  ];
+  Question? question;
 
-  int index = 0;
-
+  int questionIndex = 0;
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -166,29 +173,70 @@ class _QuestionsWidgetState extends State<QuestionsWidget> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Sample Question?'),
-            Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 200,
-                    child: CupertinoPicker(
-                      itemExtent: 64,
-                      children: items.map((item) => Center(child: Text(item))).toList(),
-                      onSelectedItemChanged: (index) {
-                        setState(() => this.index = index);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            widget.questionList[questionIndex],
+            CupertinoButton(child: Text("Next"), onPressed: () => setState(() {
+              questionIndex++;
+              if (questionIndex >= widget.questionList.length) {
+                Navigator.of(context).pop();
+              }
+              question = widget.questionList[questionIndex];
+            })),
+            SkipButton(),
           ],
         ),
       ),
     );
+  }
+}
+
+class Question extends StatefulWidget {
+  const Question(this.question, this.items);
+
+  final String question;
+  final List<String> items;
+  @override
+  State<Question> createState() => _QuestionState();
+}
+
+class _QuestionState extends State<Question> {
+  int index = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(child: Text(widget.question)),
+        SizedBox(
+          height: 200,
+          child: CupertinoPicker(
+            itemExtent: 64,
+            children: widget.items.map((item) => Center(child: Text(item))).toList(),
+            onSelectedItemChanged: (index) {
+              setState(() => this.index = index);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class NextButton extends StatelessWidget {
+  NextButton(this.onPressed);
+  final Function onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoButton(child: Text("Next"), onPressed: onPressed());
+  }
+}
+
+class SkipButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoButton(child: Text("Skip"), onPressed: () => null);
   }
 }
