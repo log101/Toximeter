@@ -54,7 +54,13 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text("ToxiMeter"),
+        middle: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.grain),
+            Text("ToxiMeter"),
+          ],
+        ),
       ),
       child: CupertinoTabScaffold(
           tabBar: CupertinoTabBar(
@@ -73,16 +79,40 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class HomeTab extends StatelessWidget {
+  const HomeTab({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Home'),
+    return Padding(
+        padding: EdgeInsets.only(top: 120.0, left: 10.0, right: 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Today'),
+            Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: CupertinoButton(
+                      color: Colors.blueAccent,
+                      child: Row(
+                        children: [
+                          Icon(Icons.add),
+                          Text("Add today's toximeter data!"),
+                        ],
+                      ),
+                      onPressed: () => null),
+                )
+            ),
+            Text('Summary'),
+        ]),
     );
   }
 }
 
 // Settings Tab
 class SettingsTab extends StatelessWidget {
+  const SettingsTab({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -92,6 +122,8 @@ class SettingsTab extends StatelessWidget {
 }
 
 class TipsTab extends StatelessWidget {
+  const TipsTab({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Center(
