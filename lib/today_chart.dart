@@ -103,7 +103,7 @@ class TodayChartState extends State<TodayChart> {
       double y, {
         bool isTouched = false,
         Color barColor = Colors.white,
-        double width = 22,
+        double width = 30,
         List<int> showTooltips = const [],
       }) {
     return BarChartGroupData(
@@ -127,16 +127,10 @@ class TodayChartState extends State<TodayChart> {
     );
   }
 
-  List<BarChartGroupData> showingGroups() => List.generate(4, (i) {
+  List<BarChartGroupData> showingGroups() => List.generate(1, (i) {
     switch (i) {
       case 0:
-        return makeGroupData(0, 3, isTouched: i == touchedIndex);
-      case 1:
-        return makeGroupData(1, 8, isTouched: i == touchedIndex);
-      case 2:
-        return makeGroupData(2, 15, isTouched: i == touchedIndex);
-      case 3:
-        return makeGroupData(3, 7, isTouched: i == touchedIndex);
+        return makeGroupData(0, 15, isTouched: i == touchedIndex);
       default:
         return throw Error();
     }
@@ -152,15 +146,6 @@ class TodayChartState extends State<TodayChart> {
               switch (group.x.toInt()) {
                 case 0:
                   weekDay = 'Monday';
-                  break;
-                case 1:
-                  weekDay = 'Tuesday';
-                  break;
-                case 2:
-                  weekDay = 'Wednesday';
-                  break;
-                case 3:
-                  weekDay = 'Thursday';
                   break;
                 default:
                   throw Error();
@@ -208,19 +193,7 @@ class TodayChartState extends State<TodayChart> {
           getTitles: (double value) {
             switch (value.toInt()) {
               case 0:
-                return 'M';
-              case 1:
-                return 'T';
-              case 2:
-                return 'W';
-              case 3:
-                return 'T';
-              case 4:
-                return 'F';
-              case 5:
-                return 'S';
-              case 6:
-                return 'S';
+                return 'Today';
               default:
                 return '';
             }

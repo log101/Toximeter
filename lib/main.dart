@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:toximeter_shellhacks/settings_tab.dart';
 import 'package:toximeter_shellhacks/today_chart.dart';
 import 'tip_card.dart';
-
+import 'package:http/http.dart' as http;
 import 'summary_bar_chart.dart';
 
 var answerList = List<int>.filled(14,0);
@@ -134,16 +137,6 @@ class _HomeTabState extends State<HomeTab> {
 }
 
 // Settings Tab
-class SettingsTab extends StatelessWidget {
-  const SettingsTab({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Tips'),
-    );
-  }
-}
 
 class TipsTab extends StatelessWidget {
   const TipsTab({Key? key}) : super(key: key);
@@ -304,5 +297,37 @@ class TodayFocused extends StatelessWidget {
             HighlightCard("Sample Title", "Sample Subtitle", Icon(Icons.home)),
           ],
         ));
+  }
+}
+
+Future<Pollution> fetchPollution() async {
+  final response = await http
+      .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return Pollution.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load pollution');
+  }
+}
+
+class Pollution {
+  final int uvi;
+  final int aqi;
+
+  Pollution({
+    required this.uvi,
+    required this.aqi,
+  });
+
+  factory Pollution.fromJson(Map<String, dynamic> json) {
+    return Pollution(
+      uvi: json['uvi'],
+      aqi: json['forecast']['aqi'],
+    );
   }
 }
