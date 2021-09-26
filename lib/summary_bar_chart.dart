@@ -34,7 +34,7 @@ class _BarChart extends StatelessWidget {
         return BarTooltipItem(
           rod.y.round().toString(),
           TextStyle(
-            color: Colors.white,
+            color: Colors.blueGrey,
             fontWeight: FontWeight.bold,
           ),
         );
@@ -47,7 +47,7 @@ class _BarChart extends StatelessWidget {
     bottomTitles: SideTitles(
       showTitles: true,
       getTextStyles: (context, value) => const TextStyle(
-        color: Color(0xff7589a2),
+        color: Colors.blueGrey,
         fontWeight: FontWeight.bold,
         fontSize: 14,
       ),
@@ -86,42 +86,42 @@ class _BarChart extends StatelessWidget {
     BarChartGroupData(
       x: 0,
       barRods: [
-        BarChartRodData(y: 15, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+        BarChartRodData(y: 15, colors: [Colors.red, Colors.red.shade800],width: 16)
       ],
       showingTooltipIndicators: [0],
     ),
     BarChartGroupData(
       x: 1,
       barRods: [
-        BarChartRodData(y: 10, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+        BarChartRodData(y: 10, colors: [Colors.red, Colors.red.shade800],width: 16)
       ],
       showingTooltipIndicators: [0],
     ),
     BarChartGroupData(
       x: 2,
       barRods: [
-        BarChartRodData(y: 14, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+        BarChartRodData(y: 14, colors: [Colors.red, Colors.red.shade800],width: 16)
       ],
       showingTooltipIndicators: [0],
     ),
     BarChartGroupData(
       x: 3,
       barRods: [
-        BarChartRodData(y: 15, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+        BarChartRodData(y: 15, colors: [Colors.red, Colors.red.shade800],width: 16)
       ],
       showingTooltipIndicators: [0],
     ),
     BarChartGroupData(
       x: 4,
       barRods: [
-        BarChartRodData(y: 13, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+        BarChartRodData(y: 13, colors: [Colors.red, Colors.red.shade800],width: 16)
       ],
       showingTooltipIndicators: [0],
     ),
     BarChartGroupData(
       x: 5,
       barRods: [
-        BarChartRodData(y: 10, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+        BarChartRodData(y: 10, colors: [Colors.red, Colors.red.shade800],width: 16)
       ],
       showingTooltipIndicators: [0],
     ),
@@ -129,7 +129,7 @@ class _BarChart extends StatelessWidget {
       x: 6,
       barRods: total.toDouble() == 0 ? null :
       [
-        BarChartRodData(y: total.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
+        BarChartRodData(y: total.toDouble(), colors: [Colors.red, Colors.red.shade800],width: 16)
       ],
       showingTooltipIndicators: [0],
     ),
@@ -148,13 +148,51 @@ class SummaryBarChartState extends State<SummaryBarChart> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.7,
+      aspectRatio: 1,
       child: Card(
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        color: const Color(0xff2c4260),
-        child: _BarChart(widget.total),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+        color: Colors.limeAccent.shade100,
+        child: Stack(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    'Weekly Toxic Exposure',
+                    style: TextStyle(
+                        color: const Color(0xff379982), fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '19-26 Sep 2021',
+                    style: TextStyle(
+                        color: const Color(0xff379982), fontSize: 16),
+                  ),
+                  const SizedBox(
+                    height: 38,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: _BarChart(widget.total),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+

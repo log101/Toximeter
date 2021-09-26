@@ -116,7 +116,7 @@ class _HomeTabState extends State<HomeTab> {
         padding: EdgeInsets.all(8.0),
         child: ListView(
           children: [
-            Text('Today', style: TextStyle(fontSize: 24.0, letterSpacing: 0.15,color:Colors.black,fontWeight: FontWeight.bold)),
+            //Text('Today', style: TextStyle(fontSize: 24.0, letterSpacing: 0.15,color:Colors.black,fontWeight: FontWeight.bold)),
             Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 20.0),
@@ -137,10 +137,10 @@ class _HomeTabState extends State<HomeTab> {
                       )),
                 )
             ),
-            Padding(
+            /*Padding(
               padding: const EdgeInsets.only(left: 4.0, bottom: 10.0),
               child: Text('Summary', style: TextStyle(fontSize: 24.0, letterSpacing: 0.15,color:Colors.black,fontWeight: FontWeight.bold)),
-            ),
+            ),*/
             SummaryBarChart(total),
         ]),
     );
@@ -195,7 +195,7 @@ class QuestionsWidget extends StatefulWidget {
   var toggle;
 
   final questionList = <Question>[
-    Question("How many hours have you spent outside?", ["0","1-4","4-7","7-10"], "negative"),
+    Question("How many hours have you spent outside today?", ["0","1-4","4-7","7-10"], "negative"),
     Question("Did you cover or skin or used sunscreen?", ["Yes", "No"], "positive"),
     Question("How many hours have you spent in traffic?", ["0","1-4","4-7", "7-10"], "negative"),
     Question("How many standard alcoholic drinks did you have today?", ["0","1-3","3-5", "5+"], "negative"),
@@ -361,10 +361,10 @@ class TodayFocused extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: TodayChart(total),
             ),
-            Padding(
+            /*Padding(
               padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 22.0, bottom: 2.0),
               child: Text("Highlights", style: TextStyle(fontSize: 24.0, letterSpacing: 0.15,color:Colors.black,fontWeight: FontWeight.bold)),
-            ),
+            ),*/
             HighlightCardList(answerList),
           ],
         ));

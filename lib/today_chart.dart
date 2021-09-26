@@ -26,7 +26,7 @@ class TodayChart extends StatefulWidget {
 }
 
 class TodayChartState extends State<TodayChart> {
-  final Color barBackgroundColor = const Color(0xff72d8bf);
+  final Color barBackgroundColor = Colors.black26;
   final Duration animDuration = const Duration(milliseconds: 250);
   late Future<Pollution> pollutionData;
   int touchedIndex = -1;
@@ -44,7 +44,7 @@ class TodayChartState extends State<TodayChart> {
       aspectRatio: 1,
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-        color: const Color(0xff81e5cd),
+        color: Colors.limeAccent.shade700,
         child: Stack(
           children: <Widget>[
             Padding(
@@ -58,9 +58,14 @@ class TodayChartState extends State<TodayChart> {
                     height: 4,
                   ),
                   Text(
-                    'Daily toxic exposure',
+                    'Daily Toxic Exposure',
                     style: TextStyle(
-                        color: const Color(0xff379982), fontSize: 18, fontWeight: FontWeight.bold),
+                        color: const Color(0xff379982), fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '9/26/2021',
+                    style: TextStyle(
+                        color: const Color(0xff379982), fontSize: 16),
                   ),
                   const SizedBox(
                     height: 38,
@@ -106,7 +111,7 @@ class TodayChartState extends State<TodayChart> {
       int x,
       double y, {
         bool isTouched = false,
-        Color barColor = Colors.white,
+        Color barColor = const Color(0xffc62828),
         double width = 30,
         List<int> showTooltips = const [],
       }) {
@@ -198,7 +203,7 @@ class TodayChartState extends State<TodayChart> {
         bottomTitles: SideTitles(
           showTitles: true,
           getTextStyles: (context, value) =>
-          const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+          const TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold, fontSize: 14),
           margin: 16,
           getTitles: (double value) {
             switch (value.toInt()) {

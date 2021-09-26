@@ -12,12 +12,12 @@ class HighlightCardList extends StatelessWidget {
   Widget build(BuildContext context) {
     if (answers[0] > 1 || answers[1] == 1) {
       cardList.add(
-        HighlightCard("Sun Exposure Warning", Icon(Icons.wb_sunny))
+        HighlightCard("Sun Exposure Warning", Icon(Icons.wb_sunny, color: Colors.redAccent.shade400))
       );
     }
     if (answers[2] > 1) {
       cardList.add(
-          HighlightCard("Traffic Warning", Icon(Icons.wb_sunny))
+          HighlightCard("Traffic Warning", Icon(Icons.wb_sunny, color: Colors.redAccent.shade400))
       );
     }
     return Column(
@@ -38,15 +38,29 @@ class HighlightCard extends StatelessWidget {
     return Container (
         height: 200,
         child: Card(
-          child: ListTile(
-            title: Text(title),
-            leading: icon,
+          color: Colors.limeAccent.shade100,
+          child: Column(
+            children: [
+              ListTile(
+                title: Text(title, style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.redAccent.shade400,
+                )),
+                leading: icon,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(highlightTexts[title] ?? "No Text",
+                textAlign: TextAlign.justify,
+                style: TextStyle(fontSize: 16, color: Colors.blueGrey.shade900)),
+              ),
+            ],
           ),
-          shadowColor: Colors.black,
           margin: EdgeInsets.all(12),
           shape:  OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.grey)
+              borderSide: BorderSide(color: Colors.grey, width: 0.2),
           ),
 
         ));
@@ -105,6 +119,7 @@ class TipCardNew extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 20, right: 20.0, top: 8.0),
             child: Card(
+              color: Colors.blueGrey.shade300,
                 clipBehavior: Clip.antiAlias,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -123,13 +138,12 @@ class TipCardNew extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Divider(),
                     Padding(
-                      padding: const EdgeInsets.only(top: 4.0, left: 10.0),
+                      padding: const EdgeInsets.only(top: 8.0, left: 10.0),
                       child: Text(
                         title,
                         textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.limeAccent.shade100),
                       ),
                     ),
                     Padding(
