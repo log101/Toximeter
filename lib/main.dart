@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:vertical_card_pager/vertical_card_pager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -68,7 +68,10 @@ class _MyHomePageState extends State<MyHomePage> {
         middle: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset("images/beher.png"),
+            Image.asset(
+                "images/beher.png",
+            height: 24,
+            width: 24),
             SizedBox(width: 5),
             Text("ToxiMeter", style: TextStyle(fontSize: 24.0, color: Colors.white)),
           ],
@@ -146,7 +149,34 @@ class _HomeTabState extends State<HomeTab> {
 // Settings Tab
 
 class TipsTab extends StatelessWidget {
-  const TipsTab({Key? key}) : super(key: key);
+  TipsTab({Key? key}) : super(key: key);
+
+  final List<String> titles = [
+    "Better Food, Better Mood",
+    "Sun Exposure and our Health",
+    "Diesel Emissions",
+  ];
+
+  final List<Widget> images = [
+    Image.asset(
+      'images/sun.jpeg',
+      height: 240,
+      width: 380,
+      fit: BoxFit.fill,
+    ),
+    Image.asset(
+      'images/elma.jpeg',
+      height: 240,
+      width: 380,
+      fit: BoxFit.fill,
+    ),
+    Image.asset(
+      'images/arabalar1.jpeg',
+      height: 240,
+      width: 380,
+      fit: BoxFit.fill,
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
