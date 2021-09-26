@@ -12,7 +12,7 @@ class HighlightCardList extends StatelessWidget {
   Widget build(BuildContext context) {
     if (answers[0] > 1 || answers[1] == 1) {
       cardList.add(
-        HighlightCard("Sun Exposure Warning", Icon(Icons.wb_sunny, color: Colors.redAccent.shade400))
+          HighlightCard("Sun Exposure Warning", Icon(Icons.wb_sunny, color: Colors.redAccent.shade400))
       );
     }
     if (answers[2] > 1) {
@@ -52,20 +52,22 @@ class HighlightCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(highlightTexts[title] ?? "No Text",
-                textAlign: TextAlign.justify,
-                style: TextStyle(fontSize: 16, color: Colors.blueGrey.shade900)),
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(fontSize: 16, color: Colors.blueGrey.shade900)),
               ),
             ],
           ),
           margin: EdgeInsets.all(12),
           shape:  OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.grey, width: 0.2),
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: Colors.grey, width: 0.2),
           ),
 
         ));
   }
 }
+
+
 
 class TipCardNew extends StatelessWidget {
   TipCardNew(this.title, this.subtitle, this.image);
@@ -96,19 +98,21 @@ class TipCardNew extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 24.0,
                           letterSpacing: 0.15,
-                          color:Colors.black,
+                          color:Colors.blueGrey.shade800,
                           fontWeight: FontWeight.bold)),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(24.0),
                   child: Text(texts[title] ?? "Couldn't find text",
-                  textAlign: TextAlign.justify),
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(fontSize: 17),),
+
                 ),
                 Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Text(references[title] ?? "Couldn't find text",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.blue),),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.blue),),
                 ),
               ],
             ),
@@ -119,11 +123,13 @@ class TipCardNew extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 20, right: 20.0, top: 8.0),
             child: Card(
-              color: Colors.blueGrey.shade300,
+              //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                color: Colors.deepPurple.shade50,
+
                 clipBehavior: Clip.antiAlias,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
-                    side: BorderSide(color: Colors.grey, width: 0.5)
+                    side: BorderSide(color: Colors.grey, width: 1.5)
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,14 +149,14 @@ class TipCardNew extends StatelessWidget {
                       child: Text(
                         title,
                         textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.limeAccent.shade100),
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blueGrey.shade800),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(12),
                       child: Text(
                         subtitle,
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: Colors.blueGrey.shade700),
                       ),
                     ),
                   ],
@@ -159,5 +165,3 @@ class TipCardNew extends StatelessWidget {
         ));
   }
 }
-
-

@@ -183,7 +183,7 @@ class TipsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        TipCardNew("Better Food, Better Mood", "Learn how to switch to a healthy diet", "images/elma.jpeg"),
+        TipCardNew("Better Food, Better Mood", "Learn how to switch to a healthy diet", "images/food.jpg"),
         TipCardNew("Sun Exposure and our Health", "Here are the some potential risks of excessive sunlight", "images/sun.jpeg"),
         TipCardNew("Diesel Emissions", "Have you ever wondered how the exhaust gases effect our health? Let's take a look!", "images/arabalar1.jpeg"),
     ]);
