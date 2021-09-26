@@ -2,8 +2,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class _BarChart extends StatelessWidget {
-  const _BarChart({Key? key}) : super(key: key);
+  _BarChart(this.total, {Key? key}) : super(key: key);
 
+  var total;
   @override
   Widget build(BuildContext context) {
     return BarChart(
@@ -111,16 +112,24 @@ class _BarChart extends StatelessWidget {
       showingTooltipIndicators: [0],
     ),
     BarChartGroupData(
-      x: 3,
+      x: 4,
       barRods: [
         BarChartRodData(y: 13, colors: [Colors.lightBlueAccent, Colors.greenAccent])
       ],
       showingTooltipIndicators: [0],
     ),
     BarChartGroupData(
-      x: 3,
+      x: 5,
       barRods: [
         BarChartRodData(y: 10, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+      ],
+      showingTooltipIndicators: [0],
+    ),
+    BarChartGroupData(
+      x: 6,
+      barRods: total.toDouble() == 0 ? null :
+      [
+        BarChartRodData(y: total.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])
       ],
       showingTooltipIndicators: [0],
     ),
@@ -128,6 +137,9 @@ class _BarChart extends StatelessWidget {
 }
 
 class SummaryBarChart extends StatefulWidget {
+  SummaryBarChart(this.total);
+  var total;
+
   @override
   State<StatefulWidget> createState() => SummaryBarChartState();
 }
@@ -141,7 +153,7 @@ class SummaryBarChartState extends State<SummaryBarChart> {
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         color: const Color(0xff2c4260),
-        child: const _BarChart(),
+        child: _BarChart(widget.total),
       ),
     );
   }

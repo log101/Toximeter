@@ -155,7 +155,7 @@ class TodayChartState extends State<TodayChart> {
               String weekDay;
               switch (group.x.toInt()) {
                 case 0:
-                  weekDay = 'Monday';
+                  weekDay = 'Today';
                   break;
                 default:
                   throw Error();

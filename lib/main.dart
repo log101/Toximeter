@@ -141,7 +141,7 @@ class _HomeTabState extends State<HomeTab> {
               padding: const EdgeInsets.only(left: 4.0, bottom: 10.0),
               child: Text('Summary', style: TextStyle(fontSize: 24.0, letterSpacing: 0.15,color:Colors.black,fontWeight: FontWeight.bold)),
             ),
-            SummaryBarChart(),
+            SummaryBarChart(total),
         ]),
     );
   }
@@ -348,8 +348,12 @@ class TodayFocused extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: Text("Today"),
-          backgroundColor: Colors.white,
+          leading: GestureDetector(
+            onTap: () => Navigator.of(context).pop(),
+            child: Icon(Icons.chevron_left, color: Colors.white),
+          ),
+          middle: Text("Today", style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.deepPurple,
         ),
         child: ListView(
           children: [
@@ -361,7 +365,7 @@ class TodayFocused extends StatelessWidget {
               padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 22.0, bottom: 2.0),
               child: Text("Highlights", style: TextStyle(fontSize: 24.0, letterSpacing: 0.15,color:Colors.black,fontWeight: FontWeight.bold)),
             ),
-            HighlightCard("Sample Title", Icon(Icons.home)),
+            HighlightCardList(answerList),
           ],
         ));
   }

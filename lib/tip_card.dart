@@ -2,6 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'texts.dart';
+
+class HighlightCardList extends StatelessWidget {
+  HighlightCardList(this.answers);
+
+  var answers;
+  var cardList = <Widget>[];
+  @override
+  Widget build(BuildContext context) {
+    if (answers[0] > 1 || answers[1] == 1) {
+      cardList.add(
+        HighlightCard("Sun Exposure Warning", Icon(Icons.wb_sunny))
+      );
+    }
+    if (answers[2] > 1) {
+      cardList.add(
+          HighlightCard("Traffic Warning", Icon(Icons.wb_sunny))
+      );
+    }
+    return Column(
+      children: cardList,
+    );
+  }
+
+}
+
 class HighlightCard extends StatelessWidget {
   HighlightCard(this.title, this.icon);
 
