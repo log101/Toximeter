@@ -85,7 +85,7 @@ class _BarChart extends StatelessWidget {
     BarChartGroupData(
       x: 0,
       barRods: [
-        BarChartRodData(y: 8, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+        BarChartRodData(y: 15, colors: [Colors.lightBlueAccent, Colors.greenAccent])
       ],
       showingTooltipIndicators: [0],
     ),

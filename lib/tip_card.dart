@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'texts.dart';
 class HighlightCard extends StatelessWidget {
   HighlightCard(this.title, this.icon);
 
@@ -37,7 +38,43 @@ class TipCardNew extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: null,
+        onTap: () => showCupertinoModalBottomSheet(
+          context: context,
+          builder: (context) => CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(),
+            child: ListView(
+              children: [
+                Image.asset(
+                  image,
+                  height: 240,
+                  width: 380,
+                  fit: BoxFit.fill,
+                ),
+                Divider(),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0,16,8,0),
+                  child: Text(title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 24.0,
+                          letterSpacing: 0.15,
+                          color:Colors.black,
+                          fontWeight: FontWeight.bold)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(texts[title] ?? "Couldn't find text",
+                  textAlign: TextAlign.justify),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(references[title] ?? "Couldn't find text",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.blue),),
+                ),
+              ],
+            ),
+          ),
+        ),
         child: Padding(
           padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
           child: Padding(
