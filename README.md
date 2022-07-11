@@ -1,13 +1,3 @@
-# TODO
-- [ ] Decrease the number of questions
-- [ ] Implement the database
-- [ ] Enchance the weekly graph
-- [ ] Convert the project into the Material Design
-- [ ] Add splash screen and logo
-- [ ] Test the app on a real android phone
-
-# toximeter_shellhacks
-
 Personalized Toxic Exposure Meter for Shellhacks 2021
 
 ## Inspiration
